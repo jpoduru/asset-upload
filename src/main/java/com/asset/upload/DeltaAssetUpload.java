@@ -34,6 +34,9 @@ public class DeltaAssetUpload
     static String basicAuth;
     static Properties prop;
 
+    /**
+     * Constructor to initialize all the default values from resource
+     */
     public DeltaAssetUpload() {
         prop = readProperty("environment.properties");
         System.out.println( prop.getProperty("devEnvironment"));
@@ -44,6 +47,11 @@ public class DeltaAssetUpload
         basicAuth = "Basic " + new String(Base64.getEncoder().encode(userCredentials.getBytes()));
     }
 
+    /**
+     * Below is the main method to trigger the values
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         String fileName = "";
         String fileSize = "";
@@ -65,10 +73,14 @@ public class DeltaAssetUpload
 
             // Calling recursive method
             RecursivePrint(arr, 0, 0, folderName, fileName, fileSize, filePath);
-            //System.out.println("Execution finished");
+            System.out.println("Execution finished");
         }
     }
 
+    /**
+     * Get the sorted list
+     * @param arr
+     */
     private static void getSortedList(File[] arr) {
         Arrays.sort(arr, (f1, f2) -> {
             if (f1.isFile() && !f2.isFile()) {
@@ -83,7 +95,7 @@ public class DeltaAssetUpload
 
 
     /**
-     * Creating the folder if doesn't exist
+     * Creating the folder if doesn't exist (As of now it is commented - Future state)
      * @param basicAuth
      * @param jsonInputString
      * @param folderName
@@ -116,6 +128,16 @@ public class DeltaAssetUpload
 
     }
 
+    /**
+     * Loop through the folder directives and check for the files
+     * @param arr
+     * @param index
+     * @param level
+     * @param folderName
+     * @param fileName
+     * @param fileSize
+     * @param filePath
+     */
     static void RecursivePrint(File[] arr, int index, int level, String folderName, String fileName, String fileSize,
                                String filePath) {
         List<File> list = Arrays.asList(arr);
@@ -137,7 +159,7 @@ public class DeltaAssetUpload
                     // PUT call to upload asset
                     uploadAssetToServer(uploadURI, filePath);
                     // complete upload
-                    String completeUrl = "https://author-p58004-e461554.adobeaemcloud.com/content/dam/" + "target-folder3"
+                    String completeUrl = prop.getProperty("devEnvironment")+"content/dam/" + "target-folder3"
                             + ".completeUpload.json";
                     completeUpload(basicAuth, completeUrl, fileName, uploadToken);
                 } catch (Exception e) {
@@ -171,9 +193,9 @@ public class DeltaAssetUpload
             // System.out.println(arr[index].getName());
             // System.out.println(arr[index].length());
             fileName = fileName + "&" + "fileName=" + arr[index].getName();
-            if(arr[index].getName().equals("original")){
-                fileName = "&" + "fileName=test";;
-            }
+            /*if(arr[index].getName().equals("original.jpeg")){
+                fileName = "&" + "fileName=test.jpeg";;
+            }*/
             long fileSizeValue = arr[index].length();
             String newFileSize = "fileSize=" + Long.toString(fileSizeValue);
             fileSize = fileSize + "&" + "fileSize=" + Long.toString(fileSizeValue);
@@ -187,12 +209,21 @@ public class DeltaAssetUpload
     }
 
 
+    /**
+     * API to Start the initial upload
+     * @param basicAuth
+     * @param fileName
+     * @param fileSize
+     * @param folderName
+     * @param filePath
+     * @return
+     */
     private static ArrayList<AssetProperties> getInitiateUpload(String basicAuth, String fileName, String fileSize,
                                                                 String folderName, String filePath) {
         ArrayList<AssetProperties> assetsList = null;
         try {
 
-            String dummy = "https://author-p58004-e461554.adobeaemcloud.com/content/dam/" + "target-folder3"
+            String dummy = prop.getProperty("devEnvironment")+"content/dam/" + "target-folder3"
                     + ".initiateUpload.json?path=/content/dam/" + "target-folder3" + fileName + fileSize;
             // System.out.println("dummy::"+dummy);
             URL url = new URL(dummy);
@@ -269,6 +300,11 @@ public class DeltaAssetUpload
         return prop;
     }
 
+    /**
+     * Uploading the asset to the server Second API
+     * @param uploadURIs
+     * @param filePath
+     */
     private static void uploadAssetToServer(String uploadURIs, String filePath) {
 
         try {
@@ -300,6 +336,14 @@ public class DeltaAssetUpload
 
     }
 
+
+    /**
+     * Complete the Upload with the proper filename. Third API
+     * @param basicAuth
+     * @param completeUrl
+     * @param fileName
+     * @param uploadToken
+     */
     private static void completeUpload(String basicAuth, String completeUrl, String fileName, String uploadToken) {
         String newUrl = completeUrl + "?fileName=" + fileName + "&mimeType=image/png" + "&" + "uploadToken="
                 + uploadToken + "&" + "uploadDuration=1679";
@@ -327,7 +371,10 @@ public class DeltaAssetUpload
             System.out.printf("IOException", e.getMessage());
         }
     }
-    // trusting all certificate
+
+    /**
+     * Method to allow the Trust of the certificates. Call happens in Secund API
+     */
     public static void doTrustToCertificates() {
         Security.addProvider(Security.getProvider("SunJSSE"));
         TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
