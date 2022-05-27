@@ -71,8 +71,14 @@ public class DeltaAssetUploadCustom
             String folderName = maindir.getName();
             //createAssetFolder(basicAuth, jsonInputString, folderName);
 
+            //Travel all the package and then rename the original file to the image name
+            //ToDo:: Method comes here
+            // Step 1: Travel all the package folders
+            // Step 2: Copy the image and Rename the original file to a different location.
+            // Also when copy the image to the other location, make sure we have the unique image.
+            // Step 3: run the bellow recursive print method on top of that relocated folder.
             // Calling recursive method
-            RecursivePrint(arr, 0, 0, folderName, fileName, fileSize, filePath);
+            //RecursivePrint(arr, 0, 0, folderName, fileName, fileSize, filePath);
             System.out.println("Execution finished");
         }
     }
