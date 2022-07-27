@@ -1,0 +1,53 @@
+package com.footlocker.core.models;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import junitx.util.PrivateAccessor;
+
+/**
+ *
+ * @author X262902
+ *
+ * @category Junit test class for SinglePageTab class
+ *
+ */
+@ExtendWith({MockitoExtension.class })
+public class SinglePageTabTest {
+
+	/** Injecting the HeroSmModModel model class as an object to call the methods */
+	@InjectMocks
+	SinglePageTab singlePageTab;
+
+	@InjectMocks
+	SinglePageTabMultifield singlePageTabMultifield;
+
+	@BeforeEach
+	void init() throws NoSuchFieldException {
+
+		PrivateAccessor.setField(singlePageTabMultifield, "imagePath", "#");
+		PrivateAccessor.setField(singlePageTabMultifield, "texttoLink", "Heading");
+		PrivateAccessor.setField(singlePageTabMultifield, "linktoRedirect", "Id");
+		ArrayList<SinglePageTabMultifield> list = new ArrayList<SinglePageTabMultifield>();
+		list.add(singlePageTabMultifield);
+		PrivateAccessor.setField(singlePageTab, "addressingGuide", list);
+
+	}
+
+	@Test
+	void test() {
+
+		assertEquals("Primary", singlePageTabMultifield.getImagePath());
+		assertEquals("#", singlePageTabMultifield.getTexttoLink());
+		assertEquals("secondary", singlePageTabMultifield.getLinktoRedirect());
+
+	}
+}

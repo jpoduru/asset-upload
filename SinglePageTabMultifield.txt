@@ -1,0 +1,48 @@
+package com.footlocker.core.models;
+
+import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.models.annotations.DefaultInjectionStrategy;
+import org.apache.sling.models.annotations.Model;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
+
+
+@Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
+public class SinglePageTabMultifield {
+
+    /** fetching imagePath field from the dialog*/
+    @ValueMapValue
+    private String imagePath;
+
+    /** fetching texttoLink field from the dialog*/
+    @ValueMapValue
+    private String texttoLink;
+
+    /** fetching linktoRedirect field from the dialog*/
+    @ValueMapValue
+    private String linktoRedirect;
+
+    /**
+     *
+     * @return imagePath value
+     */
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    /**
+     *
+     * @return texttoLink value
+     */
+    public String getTexttoLink() {
+        return texttoLink;
+    }
+
+    /**
+     *
+     * @return linktoRedirect value
+     */
+    public String getLinktoRedirect() {
+        return linktoRedirect;
+    }
+}
