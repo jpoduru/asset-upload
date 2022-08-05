@@ -1,0 +1,61 @@
+package com.footlocker.core.models;
+
+import java.util.List;
+
+import javax.inject.Inject;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.models.annotations.DefaultInjectionStrategy;
+import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.ChildResource;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
+
+@Model(adaptables = { Resource.class,
+        SlingHttpServletRequest.class }, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL, adapters = {
+        ContentListGridModel.class })
+
+public class ContentListGridModel {
+
+    /**
+     * injecting resource resolver object
+     */
+    @Inject
+    ResourceResolver resourceResolver;
+
+    /** fetching contentTitle field from the dialog*/
+    @Inject
+    private String contentTitle;
+
+    /** fetching contentDescription field from the dialog*/
+    @Inject
+    private String contentDescription;
+
+    @ChildResource
+    List<ContentListGridMultifieldModel> contentList;
+
+    /**
+     *
+     * @return contentTitle value
+     */
+    public String getContentTitle() {
+        return contentTitle;
+    }
+
+    /**
+     *
+     * @return description value
+     */
+    public String getContentDescription() {
+        return contentDescription;
+    }
+
+    /**
+     *
+     * @return multifield value
+     */
+    public List<ContentListGridMultifieldModel> getContentList() {
+        return contentList;
+    }
+
+}

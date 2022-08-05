@@ -1,0 +1,71 @@
+package com.footlocker.core.models;
+
+import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.models.annotations.DefaultInjectionStrategy;
+import org.apache.sling.models.annotations.Model;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
+
+@Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
+public class ContentListGridMultifieldModel {
+
+    /** fetching imagePath field from the dialog*/
+    @ValueMapValue
+    private String imagePath;
+
+    /** fetching authorTitle field from the dialog*/
+    @ValueMapValue
+    private String authorTitle;
+
+    /** fetching authorDescription field from the dialog*/
+    @ValueMapValue
+    private String authorDescription;
+
+    /** fetching ctaText field from the dialog*/
+    @ValueMapValue
+    private String ctaText;
+
+    /** fetching ctaLink field from the dialog*/
+    @ValueMapValue
+    private String ctaLink;
+
+    /**
+     *
+     * @return imagePath value
+     */
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    /**
+     *
+     * @return authorTitle value
+     */
+    public String getAuthorTitle() {
+        return authorTitle;
+    }
+
+    /**
+     *
+     * @return authorDescription value
+     */
+    public String getAuthorDescription() {
+        return authorDescription;
+    }
+
+    /**
+     *
+     * @return ctaText value
+     */
+    public String getCtaText() {
+        return ctaText;
+    }
+
+    /**
+     *
+     * @return ctaLink value
+     */
+    public String getCtaLink() {
+        return ctaLink;
+    }
+}
